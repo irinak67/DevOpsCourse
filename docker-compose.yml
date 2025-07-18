@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+    image: my-backend:latest
+    container_name: devops-course-backend
+
+    ports:
+      - "5000:5000"
+    volumes:      
+      - ./backend/notes.json:/app/notes.json
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    image: my-frontend:latest
+    container_name: devops-course-frontend
+
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: always
