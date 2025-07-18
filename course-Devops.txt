@@ -1,0 +1,1454 @@
+#1 - 06072025
+---------------
+Veniamin Brodetskiy
+17:36
+Cool. And guys, we will have a homework today in the in the end. Gosha made his homework in less than an hour. So let's see how fast you can do it. But we're not competing here. It's we're doing it to understand some stuff, to learn something, not to not to.
+But still, um.
+So let's start about rules. I think we already discussed. Thanks Sigal. Just I would like to emphasize, please help each other and please don't don't be shy to ask questions. We we have a.
+We have a chat of the meeting, so whenever you do your homework or just even without homework, any questions, please ask during the course or in the chat after after the lecture anytime.
+And please help each other. That's it. Now why we decided to do this course? This is second course, right? Many of you already participated in AI course previously in May.
+And I think for AI it's quite obvious why? Why do we want to talk about AI? Because everyone is talking about it. But what about DevOps? Actually, motivation behind these courses is a real situation.
+I've been um.
+In many projects, I personally feel that understanding of DevOps related topics among developers is not not good at all and we rely a lot on our DevOps team, which is not that big unfortunately and they're very busy and.
+They don't have time to support us always, and especially as we work with a lot of startups, small companies with small teams.
+In such in in such teams it's it's common that developer will do some DevOps tasks and or at least to understand something. And also we have some projects which are very DevOps oriented like Jelly Cloud.
+So this course is because because we lack this knowledge, most of us.
+So I wanted to give you some basics. We're not diving to different. We're not trying to make DevOps out of you. No, it's just some simple, simple stuff, simple tasks and some basic understanding.
+Of what DevOps guys are doing and and we believe that after this course you will be more comfortable with doing some stuff by your own or just using some tools with DevOps.
+Created for you.
+Because you all understand it better, I hope. So this is the motivation and let's let's go on. What are we talking about today?
+We will talk about what is DevOps and also what is deploying fronted or back end applications. What does it mean? We'll talk a little bit about web servers, VMS, SSH and Docker and finally how to deploy something with.
+With Docker and how to deploy these containers and in the end we will have a exercise. If we are lucky enough, we will start this exercise here. I mean you will start it and you'll have some time if not.
+You will do it as a homework and you will submit it by by next session by end of Saturday.
+Uh, any questions so far?
+Rafael Azriaiev (Guest)
+17:40
+There's no question.
+You say we we we need some time to support DevOps in terms of like the minimal tasks that we can do ourselves and that way support them. Question is when we do them.
+Veniamin Brodetskiy
+17:40
+Yeah.
+Yeah.
+Rafael Azriaiev (Guest)
+17:41
+Do we need to go by DevOps when they check those changes that we make or we just like, OK, I know what I'm doing and it's part of my PR, let's say.
+Veniamin Brodetskiy
+17:41
+It depends.
+Rafael Azriaiev (Guest)
+17:41
+On what? If it's a deep change or it's something small?
+Veniamin Brodetskiy
+17:41
+It's.
+On on a lot of stuff, it depends on your project and depends on on big change or small change in the. It depends on a lot of stuff. For example, trial kit is quite big project. In trial kit we have two DevOps, so.
+Rafael Azriaiev (Guest)
+17:41
+Yeah.
+Veniamin Brodetskiy
+17:41
+But but still also a lot of a lot of job and a lot of people. So if you can support them, I think in case of trial kit usually we we ask DevOps guys to at least to check our PRS right? If you do something by yourself but but trial kit is quite big and some other projects it might be there is there is no.
+Rafael Azriaiev (Guest)
+17:41
+Mm-hmm.
+Veniamin Brodetskiy
+17:41
+No develops at all. So you can't ask someone to review it. Or there might be some rule like this guy is always checking all PR, no matter what. Or it really depends. Every project is different, every situation is.
+Is also different. So it's it's good question, but it's question to your team lead or project manager, OK.
+Rafael Azriaiev (Guest)
+17:42
+OK, mhm.
+Veniamin Brodetskiy
+17:42
+M.
+OK, let's let's start. So DevOps, actually we use this word a lot, right? We use it to to tell this person is DevOps guy. But what does it mean? Actually, DevOps is a set of practices or set of tools.
+Or it's also a philosophy. It's it's it's not a position, but of course we call, we call even our guys, we call them they they would guys. But initially, originally, originally, it's a mindset. It's like a giant.
+So it's set of practices and the idea of DevOps is.
+It's development and operations. So it's a mixture of of development and operations and it's a breach between between IT guys and between developers and if you think what what was before DevOps.
+I think when DevOps started I was still in school. It was maybe 20 years ago, but before DevOps it was used to developers used to write code and once it's done they just created, compiled their code and hand over it to operation team.
+Maybe it's a zip. The previous team just took this and tried to deploy it and typically deployment were quite rare. Typically they were manual or maybe with some scripts.
+And it caused a lot of problems. One of problems is.
+Something is not working. Who to blame? Is it developers? Is it operations? What? Who is wrong? Who did? Who did the bad stuff?
+In many cases, especially in big companies, developers and IT guys, they were sitting on different floors. So feedback loop was was not very good and it has a high chance of failure. Not everything was automated.
+So it was Balagan and that's why they they came up with the idea to to do it in in another way. We'll talk a little bit about is another way, but before that I would like to explain what is CICD. We we talk about it a lot when we talk about DevOps.
+So CICD is is actually two parts. First one is CI. In CI typically you build your application and you test it. And the idea of CI is that it should should be running every time developer pushes some changes.
+To check that his code is is still a case that compilation works, that the tests are not failing and it's called continuous integration. So it it works all the time. CD is called.
+In some cases continuous delivery, in some cases continuous deployment. And the idea is that whenever you merge your changes, they should be deployed to staging environment, to production environment, so.
+Why we need it? We need it to.
+To be sure that what we what changes which you made didn't break the project, meaning it's still it's still in production ready state. So CI is to to check that at least it's it's builds and tests are passing. CD is also that it's.
+A production lady. So we any anytime, maybe, maybe it's already in production or maybe it's in staging, so it's very close to production.
+OK, so it's it's different parts of one big flow and and this flow is actually it's a cycle.
+And if you look at it, it.
+You'll see it's plan, discover, plan, build, test, deploy, blah blah blah, build, plan, build and test. Probably this stuff is done not by DevOps as we call them, it's usually done by developers and then we deploy probably with some automation and we check.
+Is it work OK or not? Probably we have some monitoring tools and whenever we find some issue.
+We we do this cycle again. We we found a bug, we planned how to fix it. We build code, test, deploy. This cycle is happening all the time.
+And compared to previous way of working when developers were doing stuff and then they giving this code to DevOps, ideal flow with this DevOps is that everything is is happening all the time almost every day you.
+You do some deployments. If something breaks, you go back and together with DevOps you try to investigate what's going on there. So it's not DevOps responsibility, fully not only DevOps responsibility and also not not only developer responsibility, it's.
+It's teamwork.
+Veniamin Brodetskiy
+17:47
+And also ideally everything should be automated because to to achieve this flow you can't do it manually. You will not have enough people in your project to do everything manually. You need it to. You need to have to build pipelines which will do all this stuff for you.
+And also ideally everything should be automated because to to achieve this flow you can't do it manually. You will not have enough people in your project to do everything manually. You need it to you need to have to build pipelines which will do all this stuff for you.
+Um.
+OK.
+So what should?
+veregant (Guest)
+17:48
+Vinya, it it seems there is a question.
+Veniamin Brodetskiy
+17:48
+Oh, after, please.
+Blumberg Artur
+17:48
+Yeah, yeah, I wanted to ask. Yeah, I wanted to ask. I didn't quite quite understand exactly what's the difference between CI and CD. So as I understand CI is to build the project and see that like it builds and.
+Blumberg Artur
+17:48
+Tests are passing and CD is to check that if I would deploy it for example to an environment or to the cloud, it would work there.
+Tests are passing and CD is to check that if I would deploy it, for example to an environment or to the cloud, it would work there.
+Veniamin Brodetskiy
+17:48
+Right. Exactly right. Ci is building and running test. It doesn't mean that your application is production ready. Test will never cover all cases, right? But when you do, when you do deployment in some cases.
+Blumberg Artur
+17:48
+OK.
+Mhm.
+Veniamin Brodetskiy
+17:49
+In some cases to production, if something breaks, you will know it right away from users.
+Blumberg Artur
+17:49
+So that's so that's why part of CD is automation test for on the front end. So because then you check the that it's when it's deployed it works.
+Veniamin Brodetskiy
+17:49
+It depends. It can be part of CI, but usually automation tests are in front and they take a lot of time. So typically we don't put it in CI part, we put it in CD part before deploying.
+Um.
+Blumberg Artur
+17:49
+Yeah, I mean, OK, but it's in. I meant it. OK, OK.
+Veniamin Brodetskiy
+17:49
+Oh, right after deploying. Yes, typically it's in CD park just because it's long.
+Yeah, by the way, good question. Automation test is, you know, typically you do testing in CI part, but automation test typically you won't do in CI part, you will do it in CD or after CD.
+Blumberg Artur
+17:50
+Mm-hmm. OK.
+Veniamin Brodetskiy
+17:50
+OK.
+OK, So what is our role as as developer? You of course you need to write code and you need to write tests, but you need to keep in mind that you have CICD that you you if if you change something.
+Which you also influence CI, maybe some configuration. Ideally you need to take care of it and at least developers should create Docker files. Typically it's not DevOps guy who who does to create Docker files or maybe some automation scripts.
+And again, in many projects you will even do pipelines by yourself, not waiting for DevOps Sky, especially if it's some simple pipeline. Pipeline I'm calling CICD is also pipeline. CI is a pipeline, CD is another pipeline. CICD is a big pipeline altogether.
+OK. And of course our responsibility is to check if something breaks, if something goes wrong in in production, we need to investigate. We need to know how to use some DevOps tools to do this investigation.
+So we'll try to cover as much as we can about about what is needed in this course, not every not everything today and we're going to next part soon Gosh will explain you.
+What is deployment and and other topics? But but before that I wanted to show you some homework because I believe knowing what what will be in your homework will help you understand how how much important what.
+What Gosia will explain to you. So in our homework we will we will not. It's OK if you don't understand some parts of it, OK, but I'll try to explain you big picture what we're doing with homework in homework.
+You will get a repository with code of front end application and back end application and your task will be to deploy this application first to create a Docker images locally, run it locally with Docker and blah blah blah and later to deploy it on virtual machine to deploy it to cloud and the checks that it.
+It works in cloud, so task will consist of two parts. Build, create docker files, build docker locally and check that it works locally. OK and second part will be to deploy it manually. We don't do automation today, we'll do it next time, but.
+Do it mainly on your VM. So for this task you will need virtual machine. We'll talk about it a little bit later as well. And Gosha, I pass it to you.
+Please continue.
+veregant (Guest)
+17:53
+OK, so first of all, let's find out was what deployment is. Deployment is a process when you take your application, put it somewhere where users can get access to it.
+So typically it's a cloud or some server or some virtual machine. You can call it as you wish.
+But there is some steps. First of all you need to build the application and there is different ways how to how you can do it. It may be a production build, it may be a Docker container build and we will talk about it later.
+Then you upload your build to your cloud environment, setting up all the stuff that you need. So it may be some configuration, some environment variables, maybe a database or something else.
+And then you start the application and trying to understand that the application is work properly.
+Next slide please. OK, so there is some difference between deploying back end and deploying front end. Deployment front end most of the time is quite easier.
+Because.
+Almost always you need just your front end files. When we speak about back end, back end need some infrastructure. It can be the IP itself, it can be some micro services, it can be database message.
+Queue service bus and so on O. You need to understand that deloying back end is quite more complex than deloying front end.
+Um.
+Rafael Azriaiev (Guest)
+17:55
+It's more question before you continue. When you say deployment, is it like one fits all deployment like one we create some kind of script for deployment and it's for all services like maybe Azure?
+veregant (Guest)
+17:55
+So OK.
+Rafael Azriaiev (Guest)
+17:55
+AWS and other services or is it like for each each service it's a different way to deploy?
+veregant (Guest)
+17:55
+Yep, of course. Of course it's a different way, but you can unify this ways and there is some, Yep, ways to do it. And I guess today we will mention that.
+Rafael Azriaiev (Guest)
+17:55
+So we need to define OK.
+OK.
+veregant (Guest)
+17:55
+So front end application, usually it's it's a part of an application which users sees. So it's like an image and most of the time you need just to.
+veregant (Guest)
+17:56
+Build your code and upload it to specific Web server which can solve your code to to the client to the browsers and so on. Let's let's move next.
+Veniamin Brodetskiy
+17:56
+Mhm.
+veregant (Guest)
+17:56
+So there are several types of front end applications. The most popular one and the the oldest one is static site generation. It's just plain HTMLCSS, JavaScript, some images.
+Some phones resources. So the main idea is that when you render it, you just send these files to the client and browser.
+Of your client, just show them to the user.
+Client side rendering. So if we speak about client side rendering, we talk about our favorite frameworks like React, View and Angular. The difference is that you send not.
+Not the lain HTML. You send some JavaScript code which will run in browser and this code will render.
+The application on the client side from the point of deploy or deployment, static side generation and client side rendering are almost the same so.
+Most of the times it's very fast.
+And you can use the same services to deploy SSJ and CSR.
+And also it's most popular ways to.
+It it most popular types of of the front end. The next one is server side rendering. So how it works every time a user goes to some specific page it.
+The browser sends a request to the server and asks server to give to it specific HTML for the specific page. It has some advantages like you can put more logic on the front end and.
+Will be really fast. Uh.
+But you you need to remember that every time you need to load the page from some remote hosts and it will be a little bit slower load.
+And the last one type of front end is incremental static renew generation. It is similar to server side rendering.
+So basically we can tell that ISR is a server side rendering with with the cache, so it generates static pages, but you can change and upload.
+A new version of code if you need it.
+Uh, will you show the example?
+Veniamin Brodetskiy
+17:59
+Yep. Um.
+I wanted to show you how. What does it mean? What the Gaussian just explained? What does it mean in real life? This is the tracking application and I'm going to refresh the page and we will see.
+I'm in network tab in developer two, so we will see all requests coming coming to different backends you can say.
+And we'll try to understand what's going on.
+So first of all.
+You see that first requests are requests to to get document. You see here type type is document is HTML, style sheet is CSS, script is JavaScript. So first of all it it found the file.
+A document HTML file and and then it it loaded JavaScript and CSS and once it's done now browser knows how to enter it. Now browsers knows I'm on this page and I need to send some request to back end.
+So this first request, this is a request. Um.
+We call it to get static files. These are static files. They are prebuilt in advance and this is how we deploy front end. So when you deploy front end browser can go to your server and and take this static file HTML. It says JavaScript.
+And browser knows how to how to deal with it.
+How can I? How can I check it? I will prove it a little bit. So first of all, this is HTML OK.
+And you see that host is like this. OK all all other files, JavaScript, CSS, they also come from same you can see from same domain.
+OK. And whenever we do back end requests from front end to back end, we will see a different end point. So we're going to API manager of Azure to API to get some to get some some data and in this in this case we.
+We receive back just Jason.
+So this is a difference. Again, serving front end means giving back static files, HTML, JavaScript, CSS and then once the front end is running in your browser, it knows how to do queries to your back end and and.
+And beckon typically returns, uh, Jason, right?
+So this is the difference. Any questions so far?
+Alexey Shapiro (Guest)
+18:02
+On the previous slide we were discussing front end and back end, right?
+Server side rendering refers to back end rendering HTMLS or no.
+Veniamin Brodetskiy
+18:02
+Um.
+veregant (Guest)
+18:02
+It it means that you render your HTML on the server and then send it to the to the client and the best practice is to use different servers to.
+veregant (Guest)
+18:03
+To the server side rendering and to the Uh API.
+So it it should be better.
+Veniamin Brodetskiy
+18:03
+So this site is about front end. It's not about back end, even though you call it server side rendering, but it's source front end. It's source HTML and and CSS, not logic itself, not API, OK.
+Alexey Shapiro (Guest)
+18:03
+OK, so all of this is front end, right?
+veregant (Guest)
+18:03
+Yep.
+Veniamin Brodetskiy
+18:03
+All of this is is different types of front and tops and actually the difference between them is although every time you will see HTML, JavaScript, CSS, but in static generation you will see big HTMLS with small JavaScripts.
+veregant (Guest)
+18:03
+Yep.
+Alexey Shapiro (Guest)
+18:03
+Mhm.
+Veniamin Brodetskiy
+18:03
+In clients in frameworks like React, typically you'll see very small HTML and huge JavaScript files because this is like how a speaker single page application works, right? It's empty HTML and JavaScript does all the job.
+Alexey Shapiro (Guest)
+18:04
+Mhm.
+Veniamin Brodetskiy
+18:04
+And in server site rendering you will do request to back end to get your HTML. So HTML will dynamically build.
+Oh sorry, back end server will dynamically build HTML for you and give you back almost ready HTML so it will look like static side generation. You have big HTML with smaller JavaScript code, but also some code will be on server to generate this HTML.
+Alexey Shapiro (Guest)
+18:04
+More than.
+Veniamin Brodetskiy
+18:04
+I don't know if it if it's clear what I what I expect.
+veregant (Guest)
+18:04
+So uh.
+So the main difference from point of deployment is that if you have static front end or client side rendering front end, you will have just some web server to serve static files and if you have server side rendering you need also.
+A server O you need to deploy a server.
+Alexey Shapiro (Guest)
+18:05
+Mhm.
+Just to make sure, more than half of Internet I think is still PHP. It's server side rendering, right? So it needs a PHP server, OK.
+Veniamin Brodetskiy
+18:05
+Right PHP server side rendering and also isp.net ispx pages. Also a lot of a lot of sites you will find like this. It's also server side rendering.
+veregant (Guest)
+18:05
+Yep.
+Alexey Shapiro (Guest)
+18:05
+The.
+Veniamin Brodetskiy
+18:05
+OK, cool. Uh, Gosha.
+veregant (Guest)
+18:05
+Um.So let's talk about web servers. So why do we need them to source static files? So to send these files to the client to proxying requests to the back end.
+For example, we need to proxy requests to avoid some course problems. So the front, the front end and back end, they will consider that they are on on the same host.
+Also we can handle HTTPS and SSL certificates using web servers doing reverse proxy role or API gateway. So if you have several backends you can manage them using web server.
+And also managing redirects, caching and compression. The most popular web server nowadays is Nginx. Apache is very powerful, but it's an old one, so.
+There are a lot of projects, a lot of applications that runs on Apache, but it's not used to build something new, not not really often and.
+IIS it's a web server of it's Microsoft web server and it used mostly with Microsoft application Windows applications and.
+Dmitriy (Unverified)
+18:07
+Yeah.
+veregant (Guest)
+18:07
+dot net projects.
+Let's continue. Yep. So here is an example of Nginx configuration file. Most of the time it will be a will look in your project like nginx.com.
+And what does this configuration show show us? First of all, Nginx runs on port 400 at 43.
+Dmitriy (Unverified)
+18:08
+Thank you.
+veregant (Guest)
+18:08
+And with SSL so the request should be HTT to regis port and the host is myapp.com.
+The next two lines are bind SSL certificate to the server so the browser will understand that it's really secure connection and this specific domain has its certificate.
+The next several lines.
+They are for serving the static files, so when you will go to the specific location, for example location slash main page dot HTML the server will return.
+File main page dot HTML to you and try files it's.
+It's a setting which will return index HTML if if the location doesn't exist.
+And um, the last block is uh.
+Proxing of of the back end so you can set that the back end is on the host HTTP back end and port 5000 and also.
+On the last line you send a real IP of your front end to the back end. Why do you need it? Because you don't want to, for example, broke the authentification or something else.
+So that's it.
+Do you have any questions?
+Anton Plaksin (Guest)
+18:09
+Again, uh, why do we need the back end 5000?
+Veniamin Brodetskiy
+18:10
+But here I.
+veregant (Guest)
+18:10
+Um.
+OK, go on.
+Veniamin Brodetskiy
+18:10
+Look, what does it mean? It means that we have we have a server running on some machine and it listens to specific specific.
+Past this you can say OK and.
+If it if it detects that you you come to myapp.com/API, it will redirect request coming to this path to your back end to to application running on this server.
+Anton Plaksin (Guest)
+18:10
+OK, so assuming that that our back end is running by this port by this URL. OK.
+Veniamin Brodetskiy
+18:10
+Yes.
+Yes, yes, yes. This is a place where your back end is located. It might be local host slash 5000. It might be even different IP. So it it might be different server in different places in the web.
+So it's a place where you redirect incoming traffic to your bank, OK.
+Anton Plaksin (Guest)
+18:11
+OK.
+veregant (Guest)
+18:11
+Hello.
+Veniamin Brodetskiy
+18:11
+Guys has a question.
+Rafael Azriaiev (Guest)
+18:11
+When you say you redirect to back end, what do you mean exactly? It's like this is specifically for our front end, right? And this then?
+Veniamin Brodetskiy
+18:11
+No.
+No, no, no, no, no, no. Wait a second. This, this, this and this configuration is both for front end and for back end. This part of can I draw? Wait a second, let me let me try to draw it.
+Rafael Azriaiev (Guest)
+18:11
+OK.
+Veniamin Brodetskiy
+18:11
+OK, so this part is fronted serving fronted.
+Rafael Azriaiev (Guest)
+18:11
+OK.
+Veniamin Brodetskiy
+18:11
+Why? Because incoming requests on home.
+Will whenever someone asks myapp.com slash so without the pass, this nginx configuration will go to this folder.
+Other.
+Find the index HTML and send it back to user.
+That's what this configuration is.
+Rafael Azriaiev (Guest)
+18:12
+OK, that that means that.
+Myapp.com needs to point to the nginx server itself which will access this part.
+Myapp.com needs to point to the nginx server itself which will access this part.
+Veniamin Brodetskiy
+18:12
+Huh.
+Rafael Azriaiev (Guest)
+18:12
+Where do you deploy this engine like this configuration on your own server?
+Veniamin Brodetskiy
+18:12
+OK, on your on your machine, on your surgery, right?
+veregant (Guest)
+18:12
+Oh.
+Yep, actually, Yep, you're right.
+Rafael Azriaiev (Guest)
+18:12
+OK.
+Veniamin Brodetskiy
+18:12
+OK.
+veregant (Guest)
+18:12
+So so this web server serves static files to to the client. So this service is running on myapp.com and when you go in your browser to myapp.com you will get specific file based on.
+Veniamin Brodetskiy
+18:12
+OK.
+veregant (Guest)
+18:13
+Which endpoint you use. So if it's nothing or index dot HTML you will get index HTML.
+Rafael Azriaiev (Guest)
+18:13
+OK, so our front, yeah. Mm-hmm.
+Veniamin Brodetskiy
+18:13
+And and this part, this part is back end, it's not front.
+Rafael Azriaiev (Guest)
+18:13
+Yeah, but they they need to be. OK, so let's say I set up my own Nginx server with this configuration. That means that the front end and back end needs to be in the same server.
+Veniamin Brodetskiy
+18:13
+No, doesn't have to be. Doesn't have to be.
+veregant (Guest)
+18:13
+No, no.
+Rafael Azriaiev (Guest)
+18:13
+It doesn't have to be. It doesn't have. OK, so we we can point to outside the resources, OK.
+veregant (Guest)
+18:13
+Don't.
+Veniamin Brodetskiy
+18:13
+Yes, you can point to outside here. It can be inside of back end. It can be myappapi.myapp.com here.
+Rafael Azriaiev (Guest)
+18:14
+OK and and but for front end, does it have to be same or does it it can be like back end?
+veregant (Guest)
+18:14
+No.
+No, it it can be different IP address.
+Rafael Azriaiev (Guest)
+18:14
+OK, OK.
+Veniamin Brodetskiy
+18:14
+Look, because nginx is just a web server, it gives you it does whatever you wish. Like whenever you build.net minimal API, you define endpoints and each endpoint does whatever you wish it to do. You can redirect, you can serve some Jason files.
+Rafael Azriaiev (Guest)
+18:14
+Mhm.
+Veniamin Brodetskiy
+18:14
+You can do some logic. You can whatever you wish, right? It's same.
+Rafael Azriaiev (Guest)
+18:14
+OK.
+So we we can say the Nginx itself, it's like API gateway that points us to whatever we want.
+Veniamin Brodetskiy
+18:14
+He.
+Exactly. Actually, many API gateways are based on.
+veregant (Guest)
+18:14
+Yep.
+Rafael Azriaiev (Guest)
+18:14
+OK.
+OK.
+Veniamin Brodetskiy
+18:14
+OK.
+veregant (Guest)
+18:14
+So for example, you can have several backends here, so you can have location slash API, location slash API 2, location slash API 3 and so on.
+Rafael Azriaiev (Guest)
+18:15
+Mhm.
+veregant (Guest)
+18:15
+And each of them will have another IP address, another port and it it will work.
+Rafael Azriaiev (Guest)
+18:15
+OK. Thank you.
+veregant (Guest)
+18:15
+Yeah.
+Alexey Shapiro (Guest)
+18:15
+Other good practices for a direct simple direct rule like all HTTPS traffic goes to HTTP or three W goes to main host. Other good practices like to do it here or at the main level to main registrar or.
+veregant (Guest)
+18:15
+Yeah.
+OK.
+Uh, actually. Actually, Yep. Uh.
+Veniamin Brodetskiy
+18:15
+Yeah.
+Alexey Shapiro (Guest)
+18:15
+Somewhere else.
+veregant (Guest)
+18:15
+For the model browsers, model browsers likes when you came to the HTTP and then you get a redirection to the HTTPS. So if you want to use HTTPS, most of the time you will have two server blocks in.
+Unix one with HTTP on port 80 and 2nd with redirection to the second one on port 443.
+Alexey Shapiro (Guest)
+18:16
+I mean is it better to implement it here in Nginx or on a higher level? Simple redirects, not some rule based, but just all the traffic which goes to subdomain 3 W goes to main host.
+veregant (Guest)
+18:16
+Uh, you can do you you.
+Alexey Shapiro (Guest)
+18:16
+I can do it either here or in the domain registrator for example.
+veregant (Guest)
+18:16
+You can do it here and I don't think that it it will be bad.
+So it's it's a common practice.
+Alexey Shapiro (Guest)
+18:16
+And.
+Rafael Azriaiev (Guest)
+18:16
+Me.
+Meaning you can do 2 configurations like like one configuration is for HTTP which redirects to this configuration with the HTTPS.
+Alexey Shapiro (Guest)
+18:16
+Oh.
+veregant (Guest)
+18:16
+No, it will be in a single configuration.
+Rafael Azriaiev (Guest)
+18:16
+OK.
+Veniamin Brodetskiy
+18:16
+Alexei, I think your question is not valid. I will explain. Sorry what you what you do in domain registration, you define DNS. You say this name points to this IP.
+And another name points to another IP. So answering your question, if you have www.myapp.com or justmyapp.com, probably on DNS level you will you will say both of them point to same IP.
+Alexey Shapiro (Guest)
+18:17
+Mhm.
+Veniamin Brodetskiy
+18:17
+Then you don't need something, something here, yes, but if.
+Alexey Shapiro (Guest)
+18:17
+Any configuration?
+Veniamin Brodetskiy
+18:17
+Somehow.
+Veniamin Brodetskiy
+18:17
+No, I don't. I don't think you can specify it.
+No, I don't. I don't think you can specify it.
+Alexey Shapiro (Guest)
+18:17
+I can put it threewmyapp.com here, right?
+Veniamin Brodetskiy
+18:17
+But you will never receive this request if DNS doesn't point to the server.
+Right.
+Alexey Shapiro (Guest)
+18:18
+Yes.
+Veniamin Brodetskiy
+18:18
+Sell is running on specific IP.
+Alexey Shapiro (Guest)
+18:18
+Yes.
+OK, you're alright.
+Veniamin Brodetskiy
+18:18
+OK.
+veregant (Guest)
+18:18
+Oh, if you mean DNS registration, Yep, you should do it in the domain provider. And if you mean SSL and HTTPS registration, you should do it here.
+Veniamin Brodetskiy
+18:18
+By the way, about SSN and HTTPS and all this stuff, usually when usually on on this level or in API gateway.
+You do SSL termination. What does it mean? It means that requests coming from outside to your to your infrastructures is entering your infrastructure in one specific point. For example here in Nginx server.
+You verify certificate here and if you send if you redirect some requests to other machines, to other servers of yours, usually you use HTTP, not HTTPS.
+Because it's it's kind of internal call. You don't need to to continue with HTPS if you're already inside your kind of inside of inside your network, so.
+Here you will check certificate and here you will use HTTP because HTTP is faster than HTTPS. You don't need to do it again and again, but you can do it only in case your your additional servers are somehow protected in the other way, maybe with right list.
+IP or something?
+But it's actually it's not a topic of of today and but I think we can continue guys unless you have some questions. I think this is important topic so.
+Alexey Shapiro (Guest)
+18:20
+Which is faster, a jinx or a patch?
+Veniamin Brodetskiy
+18:20
+I don't know.
+Alexey Shapiro (Guest)
+18:20
+Oh, OK.
+veregant (Guest)
+18:20
+Actually I think I think Apache is faster, but it's it's more complex to configure.
+Veniamin Brodetskiy
+18:20
+But I I.
+3.
+Also, there are some modern stuff like and I think it's even faster than in Jinx, but I'm not sure.
+And this is very popular, OK.
+Let's continue or some questions.
+OK.
+So about virtual machines, so we discussed.
+A request is coming from outside to your server, but your server need to be hosted somewhere and the simplest way to do it is to rent a machine in the cloud.
+And um.
+And put your applications there.
+And this machine is is called. Usually it's virtual machine.
+Why is it virtual? What does this name means? It's because.
+It's because usually you rent it from huge cloud providers and typically they buy very strong machines, very strong servers. Usually you don't need this huge server, you need just part of it.
+So they take one big machine and part it divide it into smaller parts and this parts are called virtual machines VMS.
+So it might be that your big machine has many, many VMS, maybe hundreds or even thousands of VMS, and they share same resources. Actually they they share CPU, memory, network of same physical machine.
+But for you as a as a user, they they look like separate machines.
+So simply saying VM is just a machine, it's just a computer which you can rent from cloud provider.
+And it's independent, it's fully isolated. So if one VM is broken, it doesn't break whole server.
+Um.
+And you have fully your operating system, files, applications which are not shared with with other guys and it's cheaper.
+Um.
+So if you're crazy guy, you could still buy bare metal server and you can host your applications there. Maybe in some cases you you will need it if you need some really strong machine, but typically you will use VM. So again, VM is just an abstraction to to divide 1 hardware.
+Into many, many smaller parts and they're isolated. Another level of structure is containers. We'll talk about it a little bit later. In container you will use every container will use same operating system underneath.
+But application files network are isolated, so it's just different levels of of dividing and sharing.
+OK to connect to VM you use you need the SSH.
+Um.
+So typically VM is Linux machine and you don't have UI to control it. So for example you need to install some applications there or you need to change some files there, you need to deploy or something.
+In many, many cases you will use SSH and SSH is a secure shell. It's a way to control remote machine.
+Uh, how to?
+How to do it? How to connect?
+First of all, you need to generate keys. It's pair of keys. It's private key and public key. Private key always stays on your machine.
+And it's like you're identity, it's me and public key is something which you upload on VM. So whenever you connect to connect, connect to VM, VM will know.
+This guy with with this public key I I can allow him to to join me. So public key is not a secret and I can I can share with you my public key.
+It looks like it looks like this.
+Um and.
+What I did, I I created VM in Google, in Google Cloud. I'll show you.
+You see here is an instance. It runs on some IP and if I go inside it you will see some information size of machine.
+We need to go to break soon actually doesn't matter. Eventually what I what I wanted to show you is is SSH here.
+So here I edit SSH keys.
+And this is my public key, so now it's on machine.
+Uh, and now I can.
+Connect to it.
+Using SSH command. So you see I'm in Windows, I'm not even in Linux, I just call SSH command. I specify user and IP address of my VM.
+And I'm inside.
+I'll show you that I'm inside. You see this machine has two CPUs, 4 gig of memory.
+I'm inside this machine and I can control it. I can do whatever whatever I need. And where is this SSH key stored? Actually it's stored inside this folder inside SSH folder.
+I can open the rest keys and you will see this is my public key.
+So because this machine.
+Has this public key inside SSH folder. Whenever I connect to it, I present my my private key and it verifies. OK, this guy, this guy is allowed to join.
+Rafael Azriaiev (Guest)
+18:27
+So first time that you create the the VM, you need to show the website manually upload the the SSH key.
+Veniamin Brodetskiy
+18:27
+Yes, but actually there is another way to connect to VM. Every cloud provider has it. You can do it.
+Rafael Azriaiev (Guest)
+18:27
+Oh, they provide you already the connection SSH for the first time, OK.
+Veniamin Brodetskiy
+18:27
+In browser.
+Yeah.
+Yeah, all they generate keys and you just need to install private key to your machine. So there are different ways you can you can you can put keys there or you can do it with UI or you can connect even even like this. You see I'm there. I'm using browser. I don't need anything.
+They created a private key, public key, everything. Wait, sorry.
+Rafael Azriaiev (Guest)
+18:28
+Yeah, it gives you the upload file as well. I see the toolbar OK, one more question about the SSH. Can I use the same public key for multiple machines? It's.
+Rafael Azriaiev (Guest)
+18:28
+Yeah, it gives you the upload file as well. I see the toolbar. OK, one more question about the SSH. Can I use the same public key for multiple machines? It's not a problem.
+Veniamin Brodetskiy
+18:28
+Yes, very nice. Yes, very nice. Um.
+Yes, no problem. No problem at all.
+But never share your private key. Look, I created this session in browser if I go now inside my machine.
+You will see that it added a couple of public keys.
+Automatically.
+K.
+And another way to I think if I if I open no because it's different user different username it will be in another folder. But if I would like someone else to be able to connect to my machine, I can just modify.
+This file and you will be able to connect.
+Rafael Azriaiev (Guest)
+18:29
+Meaning you add another SSH for a different user public key, OK.
+Veniamin Brodetskiy
+18:29
+Public key? Yes, public key for not the user to to my machine. I can do it here OK.
+By the way, you will need to create your virtual machine. I did it this time in Google Cloud just because I'm out of my free tier in Azure and in AWS. That's why I created in Google and also wanted to play with it. And also Gosha told me that it's it's amazing.
+Amazing UI, very easy to do, so it's really nice, but it doesn't matter where you will do it. You can use Azure, AWS, even Oracle, but we don't recommend it. It's not very nice or some other cloud provider. It doesn't matter, but.
+Once you do it, you will need to attach your credit card. They will not charge you. You see, I have a free tier status. They will not charge you unless you're very stupid and but you need to shut down your machine because you pay for hours.
+Currently it's it's running. If I forget to shut down, I will be out of free tier at some point and they will charge money for my credit card. So pay attention and turn off your machine when you don't use it, OK.
+veregant (Guest)
+18:30
+And even you and even you turned off your machine and you have some files inside it, you you will still pay for for the storage.
+Veniamin Brodetskiy
+18:30
+Right, right. So once you don't need it anymore, just delete everything.
+I mean, not just stop it, but delete your virtual machines. By the way, it's very easy. There is a button to delete. Auto stop. OK, I think we're done with this part. Let's let's go to break.
+10 minutes is enough.
+Veniamin Brodetskiy
+18:41
+Um, OK.
+I'm sharing back.
+Maybe some questions after after the break.
+Blumberg Artur
+18:41
+Yeah, I wanted to ask. I didn't understand the difference between public and private key.
+Veniamin Brodetskiy
+18:41
+Yes.
+They work in pair, OK, but private key is something which you can't share to anyone and private key is always stored on your machine. You never upload it to VM. Public key is a public ID. You can say it's your public ID.
+Blumberg Artur
+18:42
+Yeah.
+Mhm.
+Veniamin Brodetskiy
+18:42
+So whenever you connect to VM, I don't know the algorithm behind behind the scenes, but they it compares these two keys if they feed one another and if it if it does.
+It lets you in. If it doesn't, you can't. You can't connect.
+You can see private key is a password which is stored in your machine and public key is your ID.
+Blumberg Artur
+18:42
+So I use the public to just find the machine and the private to get into it.
+Veniamin Brodetskiy
+18:42
+No, no, no, no, no. Public not to find the machine public. You put on machine so that machine will know that it's who is.
+Blumberg Artur
+18:43
+Using it.
+Veniamin Brodetskiy
+18:43
+Not who is using it, who is allowed to use it.
+Rafael Azriaiev (Guest)
+18:43
+You can think of it as an Uh authentication protocol.
+Veniamin Brodetskiy
+18:43
+Mhm.
+Blumberg Artur
+18:43
+Hmm, OK.
+Rafael Azriaiev (Guest)
+18:43
+Yes, it public key like it decrypts and encrypts your keys in order to authenticate your user.
+Veniamin Brodetskiy
+18:43
+Imagine, imagine you have a list of users in database which are allowed to to connect to your back end. OK list of users is a list of public keys. But when the user connects, connect.
+Blumberg Artur
+18:43
+Mhm.
+Mhm.
+Hmm.
+Veniamin Brodetskiy
+18:43
+Connects to you. It needs to provide some password. So because I also can say that I'm an author and try to connect to your back end, but I need to prove that I'm author, so I need a second part to be to fit.
+Blumberg Artur
+18:43
+Mhm.
+Veniamin Brodetskiy
+18:44
+This name with my password and this is private key.
+Blumberg Artur
+18:44
+OK.
+Veniamin Brodetskiy
+18:44
+OK, so let's continue with Docker.
+veregant (Guest)
+18:44
+OK, um, let's talk about Docker. Um.
+So what is it actually? Let's start with containers. Containers exist long before Docker, so container is a part of operation system.
+Which has isolated network, isolated file system, isolated processes and namespaces, isolated users so.
+But it's not an operation, not a whole operation system still.
+Why? So why do we need containers? Because you can put inside the container everything that you need to run your code. It's a code, some libraries, some configuration, some environment variables.
+Maybe some packages and so on, and it will run on every machine around the world.
+Uh, and it's a great advantage. Um.
+So why do we use Docker? Basically, Docker is just a very comfortable way to operate containers because it has.
+Its own CLI. It has its own hub to store your container images. It has integration inside IDs like Visual Studio or Visual Studio Code and it is very comfortable.
+Um.
+Next slide please. OK, so first of all to install Docker on Windows you can just go to the URL and install Docker desktop and it will have everything that you need.
+On the virtual machine you need to install it using bash. So here is the comments. First of all you need to install docker IO package and then start it enable after start when you load your virtual machine.
+Machine and then pass your current user inside the docker O you can use it not from the root user, but from.
+Yourself.
+Um, actually, uh.
+Most of the time you will use Docker with Linux, so you need to make sure that you have a Windows subsystem for Linux on your machine before installation.
+Docker also supports Windows containers on Windows Server, but it's very specific case and most of users of Docker use specifically Linux.
+Um, let's go next.
+So um.
+Here are some concepts of Docker.
+Container. It's a running instance of your application or part of your application. Image is a template, so if.
+OK let me let me share an example for you. For example you have some Windows application and when you open the folder you will see the an executable file dot excel.
+You will see some resource files. It may be dot DLL files. It may be some I don't know, images, maybe audio files.
+And when you run this application, you will see a specific process of it in inside your task manager in Windows. So the image is your exact file.
+The container is a process inside your Windows operation system which starts when you start your exact file. Volume is something that you want to store between your container is running.
+So if you want something for example database or maybe a log files to stay and not to be deleted after you stop your container or after your container is down.
+For some reason you need to create a volume and put this information inside the volume.
+Network. What you need to know that network inside the container and network outside of of the container. It's two different networks and if you need if you want to access something inside your container.
+You need to expose specific port and later I will show you how. Do you have any questions?
+Veniamin Brodetskiy
+18:50
+Especially it's important to differentiate between image and containers. So try to ask yourself if you understand what what is the difference or not and we can clarify.
+Rafael Azriaiev (Guest)
+18:50
+Uh, do we have to create the poker file the images uh on the VM?
+Oh, we can do it on the computer and then upload the.
+The image itself and then.
+veregant (Guest)
+18:50
+Um.
+Veniamin Brodetskiy
+18:50
+Good question.
+veregant (Guest)
+18:50
+Actually, actually we will talk about it a little bit later. So it it's a part of your homework and I will tell tell about it.
+Veniamin Brodetskiy
+18:50
+Short answer both.
+veregant (Guest)
+18:50
+Yes, you can. Yes, you can do both. Yeah.
+Veniamin Brodetskiy
+18:50
+OK.
+Rafael Azriaiev (Guest)
+18:50
+OK, we can do both, but what would you recommend? Like because compute time costs money, so it's not very cost effective to create it directly on the VM itself.
+veregant (Guest)
+18:51
+The short transfer, you're right. Yep.
+Rafael Azriaiev (Guest)
+18:51
+Better to create it on my own, OK?
+Veniamin Brodetskiy
+18:51
+Yeah, best practice of course to create it on your machine and to upload it. But but look what what you said about the compute time with VMS.
+Rafael Azriaiev (Guest)
+18:51
+OK.
+Veniamin Brodetskiy
+18:51
+I I don't know because you pay not for compute time, you you you pay for time. Your VM is on. Typically your VM is on always unless you you're playing and doing homework. But if in in real situation your VM is always on.
+Rafael Azriaiev (Guest)
+18:51
+OK.
+Veniamin Brodetskiy
+18:51
+So you pay for it anyway. It's it's fixed cost and if you can utilize it CPU more efficiently and give it some more tasks, it's it's totally OK, but still it's recommended to to build not on that VM. Yep.
+Rafael Azriaiev (Guest)
+18:51
+He.
+OK.
+Veniamin Brodetskiy
+18:51
+So let's continue Gosh, right?
+veregant (Guest)
+18:51
+Yep.
+OK, here is examples of Docker files, one for back end, one for front end. Both of them are on node JS. And what is Docker file exactly? Actually it's a script.
+How to run your application inside the container so?
+I don't think we need to go live by line because we'll talk about layering on the next slide. Vinya, please.
+So Docker can cache.
+Something that you already built.
+You see here 2 docker files which are for the same application and they both are OK, so they both works, but there is some difference.
+Every instruction, so every line in the Docker file is a layer and when Docker passes layer it caches it and if.
+When you when you build your image next time, if the layer has no differences with previous version, Docker can just use cache.
+And.
+Not to do everything from the scratch again. So here as you see after you set a working directory.
+You need to to do to run your project. You need to copy.
+All the files inside the container and then run two specific comments. It's NPM install and NPM run build. In the first case, first you will copy package dot Jason which contains of.
+Names of packages and it and their versions and then run NPM install and after that you copy everything else and then build your application.
+Uh.
+In the second case, you copy everything, then run NPM install and then run NPM build. So what is the difference?
+The package Jason is a file that you don't change with every commit, with every pull request all the time and versions of packages or packages.
+The self are not changed very often.
+In the first case, Docker can run NPM install, cache, cache it and when you run this Docker file next time, it will not do the NPM install again because nothing was changing.
+And even if you have some differences, some changes in the code, so Docker will build your application.
+Using the cached packages from the last build.
+On the second example.
+Every time that you run this Docker file, it will copy everything and create packages again.
+Um.
+Dmitriy (Unverified)
+18:56
+Without cash, Yeah, it's a second case without cash.
+veregant (Guest)
+18:56
+It it will have cache for example for the first line.
+Dmitriy (Unverified)
+18:56
+Yes.
+Veniamin Brodetskiy
+18:56
+Yes.
+veregant (Guest)
+18:56
+So.
+The the node JS itself node of 18 version it will be the same.
+But it it will do like unnecessary work every time you build your image.
+Dmitriy (Unverified)
+18:56
+OK. Thanks.
+Veniamin Brodetskiy
+18:56
+Yeah, guys, I can't believe that you understood everything for the first time. It's not so easy. So if you have some questions.
+veregant (Guest)
+18:56
+Uh, and other questions.
+Daniel Lippo
+18:57
+In in which cases it's more it's more logical to use the the second one, because for now it seems like the first one is a good practice and the second one is a bad practice. But are there any? Are there any?
+Real reasons to use the second one when you always copy and always install the dependencies.
+veregant (Guest)
+18:57
+Uh.
+Veniamin Brodetskiy
+18:57
+No, no, first use first version all the time, all this.
+veregant (Guest)
+18:57
+Yep, in this specific case, the first version is good and the second one is bad and.
+That's it.
+Veniamin Brodetskiy
+18:57
+But both will work, so it's it's just something which you need to know about Docker files and and images, especially if you if you use Docker for development.
+You know that Docker build takes takes time because it needs to install NBM packages. It takes a lot of time to download them all this stuff, but if you build your.
+Veniamin Brodetskiy
+18:58
+Image often you don't want to spend time every time on it, so obviously we'll use that first approach for production. Actually that it doesn't matter you build it once and you and you push it to registry and that's it.
+veregant (Guest)
+18:58
+So you will get the same result, but in in the first case you will get it faster.
+Veniamin Brodetskiy
+18:58
+No.
+Anton Merlian
+18:58
+Can you explain a bit the mechanism of the division? So the division you divide it by by copying by different copies or the are there any other mechanism to do so?
+Veniamin Brodetskiy
+18:58
+No.
+veregant (Guest)
+18:58
+Oh.
+By line, no by command by line. Each each line might create a new layer if you change something with this line, right? Gosh.
+veregant (Guest)
+18:58
+Oh.
+Anton Merlian
+18:58
+Mhm.
+veregant (Guest)
+18:58
+Yep. So uh.
+Rafael Azriaiev (Guest)
+18:58
+But can you cache it separately? Let's say there are some lines that are unrelated to each other. It can still cache one layer and.
+Veniamin Brodetskiy
+18:59
+Yes.
+No, as far as I say, no.
+Rafael Azriaiev (Guest)
+18:59
+Skip another, uh, because it's layered one on top of each other. Oh, OK.
+Anton Merlian
+18:59
+Oh.
+Veniamin Brodetskiy
+18:59
+Line by line, one on top of each other, right?
+Alexey Shapiro (Guest)
+18:59
+It rebuilds everything after the line which has been changed.
+Veniamin Brodetskiy
+18:59
+Exactly, exactly. So I draw here a separation. In most cases this part will be cached and whenever you do build again, if you unless you change back adjacent, no changes here, so no changes here, so it will be just.
+Rafael Azriaiev (Guest)
+18:59
+Mhm.
+Veniamin Brodetskiy
+18:59
+Taken from cache every time you build it again and again, even though you change some files, some code. But here it's cached only until here, because whenever you change the file, this line is.
+Is changing. It's changing, but I can do breaking changes and it will it will have to do in game style again from zero even though packages are same. It's not that smart.
+Rafael Azriaiev (Guest)
+18:59
+Always.
+Where do we keep this cash? Let's say we want to make a clean build without cash. Can we do that?
+veregant (Guest)
+19:00
+Yep, you you can just use Flick and no cache.
+Veniamin Brodetskiy
+19:00
+Yes.
+Rafael Azriaiev (Guest)
+19:00
+OK.
+Veniamin Brodetskiy
+19:00
+Or you can delete this cache before you're doing build. You can you do it, do it with document desktop, you can do it with command line.
+Rafael Azriaiev (Guest)
+19:00
+Thank you.
+veregant (Guest)
+19:00
+OK, let's continue.
+Also you can use docker ignore file. It actually similar to gitignore. So if you know that some files you don't want to copy inside inside your container.
+You can just put them into the Docker ignore and Docker will not copy them and that's it. Here is an example and I think it should be pretty clear.
+Veniamin Brodetskiy
+19:01
+It influences this this command of copy dot dot copy everything to everything. Now it will be not everything to everything, but it will be everything except what is in docker ignore to to inside inside image.
+OK.
+veregant (Guest)
+19:01
+Um.
+OK, here is 2 commands to build and run Docker image manually. So when you execute Docker build, the Docker will start to execute your Docker file.
+What what is important here? First of all you need to expose port because as you remember the network inside the container and network outside of container are different networks and you need to connect external port.
+To internal port. So for example if inside of container your application runs on a local host, I don't know 1000 and you want to connect to this container.
+To local host 1001 you need to print Docker build dash P 1001.
+Column 1000.
+Um.
+Rafael Azriaiev (Guest)
+19:02
+That's in. That's in build. We can do the same in run like attach the port, expose the port to the to the image itself. What we run the container. We don't have to do this, but this this gives it a default values.
+veregant (Guest)
+19:02
+Um.
+Yep, Yep.
+Uh.
+Rafael Azriaiev (Guest)
+19:03
+Like the for the post, not image name and tag because image name and tag is what's generated.
+Veniamin Brodetskiy
+19:03
+Gosh, I'm I'm not sure. I'm not sure it will work if you do it in build. I don't know. I never tried it in run. Yes, for sure. In build I don't know what will happen.
+veregant (Guest)
+19:03
+I think it will work in build with sports because for example you can do it in docker compose and it still will work and and also you can do it in run.
+Veniamin Brodetskiy
+19:03
+OK.
+veregant (Guest)
+19:03
+So yeah, actually about ports it it's not necessary here, but I just wanted to explain it on the build stage.
+Rafael Azriaiev (Guest)
+19:03
+Good.
+veregant (Guest)
+19:03
+Uh.
+Veniamin Brodetskiy
+19:03
+You will need to map ports in your homework. You will need to care about it, so you you will have a chance to play.
+veregant (Guest)
+19:04
+So it's a manual build and also you need to set image name and version tag. If you will not set the version tag, it automatically by default will be latest.
+What about image name? If you want to use Docker hub which we will.
+Talk about later. You need your image name to be unique.
+And I think that pass to context is pretty obvious.
+Rafael Azriaiev (Guest)
+19:04
+It it it when you mean unique, that depends on where I'm going to upload the image itself. If I can have my own registrar of of images and I don't have it to be unique like to Docker hub.
+veregant (Guest)
+19:04
+Yep, of course, of course, only if you use Docker Hub. And of course if you have your own image registry, you should have a unique image name inside your registry.
+Rafael Azriaiev (Guest)
+19:04
+Mhm.
+Yes, yes. Mm-hmm.
+veregant (Guest)
+19:05
+Yep.
+And execution docker run, you will run container from your image.
+Again, if you will not put here version tag, it will be latest.
+Let's go next.
+Rafael Azriaiev (Guest)
+19:05
+Once more question about Docker Han. So say I don't have the image on my computer, will it try to download the image from a different place where I need to set it somewhere?
+veregant (Guest)
+19:05
+By default it will go to the Docker Hub and of course you you need first you have to login inside Docker Hub or you can for example print address of your image.
+Rafael Azriaiev (Guest)
+19:05
+Uh, I see.
+veregant (Guest)
+19:06
+Registry and it will go to the image registry and try to pull it so.
+Yep.
+Rafael Azriaiev (Guest)
+19:06
+OK, thank you. I I can I can run the same like like Ubuntu 2404 something like that. I don't have what I mean. It doesn't have to be my image. I can run different images for the.
+Veniamin Brodetskiy
+19:06
+And a.
+Yes, yes, yes. But by default it will it will go to public Docker Hub and we'll try to find by name and in many cases it will find even by the way, even without signing into Docker Hub because many images are public.
+veregant (Guest)
+19:06
+Yep, Yep, Yep.
+Rafael Azriaiev (Guest)
+19:06
+OK.
+Yes.
+Veniamin Brodetskiy
+19:06
+Let's see.
+Alexey Shapiro (Guest)
+19:06
+Did I understand it correctly that if you forgot to add some environment variables, the dot and file to Docker ignore and upload the image to Docker hub, anyone can download it?
+Execute shell in it and look at all the secrets you have.
+Veniamin Brodetskiy
+19:07
+Right.
+veregant (Guest)
+19:07
+Yep.
+Alexey Shapiro (Guest)
+19:07
+Cool.
+Veniamin Brodetskiy
+19:07
+And it's cool that you mentioned it, yeah, but typically use usually use private registry.
+Yeah, unless it's something like node JS, Ubuntu or something like that.
+Alexey Shapiro (Guest)
+19:07
+Homework.
+Veniamin Brodetskiy
+19:07
+Oh, homework. OK, let's continue.
+veregant (Guest)
+19:07
+OK, what is Docker Compose? It's also a script which allows you to run a lot of containers. For example, you have a project which has not one, not two, but for example 20 or more containers.
+And running them manually, building, uploading to the registry. It will take a lot of time because you need to print all these commands and we can simplify that.
+Using Docker compose, so it's some sort of infrastructure as code.
+Some container orchestrator. Um, so you can.
+Create all configuration of your containers with all environment variables with all exposed ports. Put it inside Docker compose and then run all of your containers using just one command.
+Uh Docker compose up and uh Vinya, could you please show us docker compose dot YAML?
+So here is an example. Um.
+As you see every container we in Docker compose we call call them services.
+Here we have only two services. It's front end and back end and of course you need to set the name of container you need to.
+Set build context. Uh.
+The directory and the docker file name and you need to expose ports. On this specific case you need to load back end before you start front end.
+So the front end depends on back end. You can set up restart rules so in that case it will restart every time when container crash.
+Uh. Also you can pass environment variables. Uh.
+And connect to some custom network.
+So that's it also.
+Docker compose file. It will be different when you build your application and then run and when you pull some images, for example from Docker hub or some registry.
+So you need to uh change the build uh stage to the image stage.
+Uh, do you have any questions?
+OK.
+Veniamin Brodetskiy
+19:10
+OK, OK.
+Alexey Shapiro (Guest)
+19:10
+I have a question actually. Let's say you're running a lot of containers in your app and you need to restart just one container. If you do it stupid way, stop and start. It won't be in the same network when it restarts for some reason.
+Veniamin Brodetskiy
+19:10
+OK.
+veregant (Guest)
+19:10
+OK.
+Alexey Shapiro (Guest)
+19:11
+It will not see other containers and the other containers will won't see this one.
+I saw this happen in an application using Dapper.
+Maybe it's some exploration or I don't know stage which is missed.
+Veniamin Brodetskiy
+19:11
+That's strange. You mean you stop some container and run it again? You have 5 containers or do you delete it?
+Alexey Shapiro (Guest)
+19:11
+Where?
+Rafael Azriaiev (Guest)
+19:11
+Or do you mean deleted?
+Alexey Shapiro (Guest)
+19:11
+Yes, yes, like 2 containers, container and its sidecar. And when I restart this strange pair, it doesn't see other containers and other containers do not see it.
+Veniamin Brodetskiy
+19:11
+OK.
+OK.
+It might be. It might be dapper stuff.
+Alexey Shapiro (Guest)
+19:11
+Through the.
+veregant (Guest)
+19:11
+It it might be also a namespace.
+Veniamin Brodetskiy
+19:11
+Yeah.
+Alexey Shapiro (Guest)
+19:11
+What do you mean namespace?
+veregant (Guest)
+19:12
+Is it inside Kubernetes or container app?
+Alexey Shapiro (Guest)
+19:12
+No, no, no. It's locally in the same the Docker network.
+veregant (Guest)
+19:12
+OK.
+Veniamin Brodetskiy
+19:12
+It I I don't know. In my understanding it should work because you just restarted in in same network. I suppose it's because of Dapper, because Dapper has some, you know Dapper is built for Kubernetes, not for Docker compose.
+Alexey Shapiro (Guest)
+19:12
+Huh.
+Veniamin Brodetskiy
+19:12
+So maybe maybe there is some issue with with it it it cannot discover it uses internally it uses some service discovery to find another cycle to find another service.
+Maybe it's broken after I start, I don't know.
+Alexey Shapiro (Guest)
+19:12
+OK.
+But if you restart all services, it starts working again. I was wondering, maybe someone faced it too.
+veregant (Guest)
+19:12
+As you see for example here you connect your services to specific network app network. So maybe when you start manually your container you need to put the network inside the run command.
+Some specific network and.
+So.
+Maybe it's the way.
+Veniamin Brodetskiy
+19:13
+You you do it with document desktop or you do it or you do it with CLI.
+Alexey Shapiro (Guest)
+19:13
+You need to try that.
+I have tried see why Docker desktop.
+Veniamin Brodetskiy
+19:13
+Because documents stop shoot whenever you start it again it it should take configuration which was used with document compose app. So it should use it manually you you could miss a lot of stuff.
+Alexey Shapiro (Guest)
+19:13
+It.
+Veniamin Brodetskiy
+19:13
+Um, I just wanted to add about Docker Composite. Usually you don't use it for production. Um.
+Usually you you can use it for production, but typically you use it for local environment because production probably will be you know maybe you use Kubernetes, maybe you use container apps.
+veregant (Guest)
+19:13
+OK.
+Veniamin Brodetskiy
+19:14
+And it's it's deployed in in another way. It's it's an it's other tools, cloud tools to orchestrate containers.
+Um.
+But still in some simple application might be.
+I guess we can continue.
+veregant (Guest)
+19:14
+Um.
+Could you please go back for a second so?
+Veniamin Brodetskiy
+19:14
+Of course.
+veregant (Guest)
+19:14
+Here are some comments for Docker compose.
+So here is the most popular and basic ones.
+So when we will do your homework, you can go to the slide and just see. Maybe you will see here the comments that you need. OK, let's go next.
+So manual container deployment. You have actually two options.
+Options one is to push all your files, all your code, all your packages to the virtual machine, install Docker into the virtual machine and then build.
+Docker images and start the containers. It's not really a good way. The best practice is option two is to build images on on the local machine, push them to the Docker hub or.
+Your container registry.
+And then you will need just to push Docker compose file to your virtual machine and run it. And that's it.
+Veniamin Brodetskiy
+19:16
+Any questions about it? You will need to do it in homework.
+Dmitriy (Unverified)
+19:16
+I I have question. Yes I have question. We run docker compose up in cloud machine, virtual machine. How we do this?
+Veniamin Brodetskiy
+19:16
+You connect with you, you connect. You remember SSH, you use SSH command to connect to virtual machine and and there manually you do Docker composer. But of course you need to install Docker and Docker compose in your machine, otherwise it will not work.
+Dmitriy (Unverified)
+19:16
+Yeah.
+Yes, yes. Oh.
+Oh, OK.
+OK.
+Veniamin Brodetskiy
+19:16
+OK.
+Dmitriy (Unverified)
+19:16
+I have a question. Manual run Docker compose up. This is best practice exactly. Or maybe we can write something script. I don't know, maybe from.
+veregant (Guest)
+19:16
+OK.
+Dmitriy (Unverified)
+19:17
+Uh, GitHub action. Maybe other ways for random composer.
+Veniamin Brodetskiy
+19:17
+Well.
+veregant (Guest)
+19:17
+It will be on the next sessions.
+Dmitriy (Unverified)
+19:17
+Uh, OK, OK.
+Veniamin Brodetskiy
+19:17
+First step is manually and then you automate.
+Yeah.
+Dmitriy (Unverified)
+19:17
+This sucks.
+veregant (Guest)
+19:17
+So what is Docker Hub? Docker Hub? Actually it's like GitHub, but not for for the code repositories, but for Docker images. So you can pull there your image you can set.
+Some version tag on it so you will have different versions of your application and all of them will be operational. So you can in anytime pull any version and run it and it will work.
+Because container has everything that your application need inside it.
+And you can use Docker Hub and of course you can use your own registry. It may be in the cloud or it actually may be on your local machine and anyway it will work and.
+It it is actually very cool stuff.
+So here is an example of comments and.
+Any questions?
+I want to remind again, if you if you don't write a specific address of your registry, by default Docker will try to find your image inside Docker Hub.
+So next several slides are just for specific comments and flags that you can use in Docker. I don't think that we need to stop here and talk about it, but.
+You can use it during your homework.
+Veniamin Brodetskiy
+19:19
+Just small reminder. Images and containers are different stuff, so don't mix them. That's it.
+OK, volumes clean up and a lot of useful flags.
+Cool. I think we finished and it's time to explain the homework.
+So to to do your homework, you first need to prepare something, right? You need to create virtual machine. I showed you how it looks like in in Google Cloud. You again you can use Azure, AWS, Google, Kamatera, Volta, whatever you whatever you prefer, doesn't matter.
+Try to use free tier cloud and if you already registered for AWS, just go to Azure or to Google. And yes, you will need to input your credit card, but if you use free tier you will not pay anything with it.
+And remember to turn off your machine, otherwise eventually free tier will end and you will pay for it.
+Also, of course, you need Docker or Docker desktop desktop installed locally and probably on your VM as well. Not Docker desktop, just Docker on your VM.
+And you need you need to fork repository of Kosha. Let me show it to you.
+This repository is simple, simple application, simple front end application, simple back end application in node JS. Very very simple. You will find it. You will see it's.
+It's even primitive, I would say, because we're not doing development today, we're doing deployment, we're doing DevOps stuff. So front and back end and your task is to deploy them to virtual machine and to see that it works.
+So task is divided into two parts. First part is to make Docker Docker work locally. You need to create Docker file for back end and front end. You need to run it, to run it and to check that it works.
+And later you wrap it with Docker compose and you will see that it's much easier than than doing doing it with Docker run command. And then you build your images and push it to your Docker hub and you check that you can pull your images locally.
+Optional, but it's nice nice to have. You can create a script which will do build and push and just take it up for you to do it in one command and and once you finish that now you need to do kind of same stuff but in cloud.
+So you need to connect to your virtual machine. You need to install necessary commands to your virtual machine, for example Docker, and you need to pull images from Docker Hub and run your containers on VM. Pay attention that you also need to open some ports from your virtual machine, otherwise it won't.
+It won't be accessible from outside and if everything works OK, you will be able to reach your application by IP of your VM and you will see front end running and doing some stuff.
+Also in the end, please create a short readme file explaining what you how you did the deployment. Minimalistic, no need a huge explanations and please also add screenshots of your working application.
+To this read me file and but it it should be two screenshots. One screenshot of of your browser showing that on this IP this application is working and another screenshot is a screenshot of.
+Showing that your containers are running on your VM. So probably you will do Docker PS and you will see that containers are running and make screenshot and please submit it. You have a time till end of Saturday.
+Um.
+If you have some problems, just reach CID on me.
+Any questions about homework?
+Anton Plaksin (Guest)
+19:23
+Do we get the content that we want to put like the the front end or we just create little scripts or whatever we want?
+Veniamin Brodetskiy
+19:24
+You you have this repository right? It it contains front end and back end. It's very small application.
+Anton Plaksin (Guest)
+19:24
+Oh, OK. Sure. OK.
+Veniamin Brodetskiy
+19:24
+You need to deploy it. If you wish to deploy something more complex, up to you. It's it's nice this is, but this is simple application and you can you can just take it and deploy it.
+Blumberg Artur
+19:24
+Then deploy gallery if you want.
+OK.
+Veniamin Brodetskiy
+19:24
+Yes.
+Alexey Shapiro (Guest)
+19:24
+Does the machine help?
+veregant (Guest)
+19:24
+Actually the process of deployment will not very different with another application which consists of back end and front end. So the the size of application it doesn't matter.
+Veniamin Brodetskiy
+19:24
+Yeah.
+Unless you use some cloud resources, which you also need to deploy like in Guardview, we use Azure Service bus and we deploy to container apps. By the way, you still you can deploy Guardview to virtual machines, no problem, you will just need to.
+Alexey Shapiro (Guest)
+19:24
+OK.
+Veniamin Brodetskiy
+19:25
+To do a little bit more stuff, but it's possible. Yeah, questions.
+Alexey Shapiro (Guest)
+19:25
+Does the machine have to be virtual or it's OK to deploy to some Raspberry Pi or something?
+Veniamin Brodetskiy
+19:25
+Uh, it's OK, yeah.
+Alexey Shapiro (Guest)
+19:25
+If it's local or you will or you need to check it from the Internet.
+Veniamin Brodetskiy
+19:25
+But.
+It's OK.
+Look, it's OK. The application is done not to to present to investors, right? It's it's for us to play with it and check that it works if you want to play with the Raspberry Pi.
+Alexey Shapiro (Guest)
+19:25
+OK.
+Oh.
+What does it do? Mine's Bitcoin, right?
+Veniamin Brodetskiy
+19:25
+Yeah, you'll see. There is no kidding. Logic, but but it's also nice to play this first part of creating virtual machine in some cloud. It's also nice part.
+Veniamin Brodetskiy
+19:25
+Yeah, you'll see there is no kid logic, but but it's also nice to play this first part of creating virtual machine in some cloud. It's also nice part.
+Alexey Shapiro (Guest)
+19:25
+Mhm.
+Veniamin Brodetskiy
+19:26
+It.
+Any questions guys?
+Dmitriy (Unverified)
+19:26
+Uh, we can use uh as a cloud, not uh this list clouds.
+Veniamin Brodetskiy
+19:26
+Any cloud, Any cloud, Any cloud.
+veregant (Guest)
+19:26
+Any cloud.
+Dmitriy (Unverified)
+19:26
+Good. Good.
+veregant (Guest)
+19:26
+You can even up a virtual machine on your own computer and use it.
+Veniamin Brodetskiy
+19:26
+Yeah, also.
+Dmitriy (Unverified)
+19:26
+OK.
+Awesome.
+Veniamin Brodetskiy
+19:26
+OK, so I remind you, once you'll you'll be doing this exercise, if you have some questions, if something is not clear, don't be shy and ask your questions in in chat. Maybe other guys will answer you.
+Maybe me or Gosha will answer you, so please do it, yeah.
+Dmitriy (Unverified)
+19:26
+Uh.
+We shouldn't this presentation.
+Veniamin Brodetskiy
+19:27
+Yes, yes, I'll upload it to Teams group. I think everyone was added to Teams group. I will upload it there to files and you will be able to take it from here from there, OK.
+Dmitriy (Unverified)
+19:27
+Alright.
+So.
+Veniamin Brodetskiy
+19:27
+So I think we're done for today. It's solid. No time to practice right now. We have just three minutes left. I also wanted to remind you that the next session we will start with present with you presenting homework.
+So.
+If you would like to present when you will, when you will submit homework, press I would like to present.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
