@@ -53,3 +53,15 @@
 		1. Frontend UI: http://52.159.236.159/
 		2. Backend API: http://52.159.236.159:5000/api/notes
 
+## Exercise 3 – Automated deployment to VM with GitHub Actions
+
+	### CI workflow  
+		- Runs on every push to **main**.  
+		- Installs project dependencies, builds the production frontend, and assembles backend.  
+		- Produces fresh Docker images for both services and publishes them to Docker Hub.
+
+	### CD workflow  
+		- Fires automatically after a successful CI run.  
+		- Securely copies the updated *docker‑compose.yml* to the VM.  
+		- Pulls the new images, recreates the stack, and removes outdated containers.  
+		- All credentials (Docker Hub token, SSH key, VM host/user) are injected through GitHub Secrets, keeping the pipeline secure and fully unattended.
